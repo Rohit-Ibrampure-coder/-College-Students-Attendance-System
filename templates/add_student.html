@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Student</title>
+</head>
+
+<body>
+
+<h2>Add Student</h2>
+
+<form method="POST">
+
+    <p>
+        Roll Number
+        <input type="text"
+               name="roll_no"
+               required>
+    </p>
+
+    <p>
+        Student Name
+        <input type="text"
+               name="name"
+               required>
+    </p>
+
+    <p>
+        Email
+        <input type="email"
+               name="email">
+    </p>
+
+    <p>
+        Phone
+    
+        <input type="text" name="phone" pattern="[0-9]{10}" maxlength="10" minlength="10" required>
+    
+    </p>
+
+    <p>
+        Course
+
+        <select name="course">
+
+            <option value="BCA">
+                BCA
+            </option>
+
+        </select>
+    </p>
+
+    <p>
+        Year
+
+        <select name="year">
+
+            <option value="First Year">
+                First Year
+            </option>
+
+            <option value="Second Year">
+                Second Year
+            </option>
+
+            <option value="Third Year">
+                Third Year
+            </option>
+
+        </select>
+    </p>
+
+    <button type="submit">
+        Save Student
+    </button>
+
+</form>
+
+<br>
+
+<a href="/students">
+    Back
+</a>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Students</title>
+</head>
+
+<body>
+
+    <h2>Students List</h2>
+
+    <form method="GET">
+    
+        <input type="text" name="search" placeholder="Search Student" value="{{ search }}">
+    
+        <button type="submit">
+            Search
+        </button>
+    
+    </form>
+    
+    <br>
+
+    <a href="/dashboard">
+        Dashboard
+    </a>
+
+    <br><br>
+
+    <a href="/add-student">
+        Add Student
+    </a>
+
+    <hr>
+
+    {% if students %}
+
+    {% for student in students %}
+
+    <p>
+
+        Roll No:
+        {{ student.roll_no }}
+
+        |
+
+        Name:
+        {{ student.name }}
+
+        |
+
+        Course:
+        {{ student.course }}
+
+        |
+
+        Year:
+        {{ student.year }}
+
+        |
+
+        <a href="/edit-student/{{ student.id }}">
+            Edit
+        </a>
+
+        |
+
+        <a href="/delete-student/{{ student.id }}">
+            Delete
+        </a>
+
+    </p>
+
+    {% endfor %}
+
+    {% else %}
+
+    <p>No students found.</p>
+
+    {% endif %}
+
+</body>
+
+</html>

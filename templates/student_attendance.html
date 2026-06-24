@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Student Attendance</title>
+</head>
+
+<body>
+
+    <h2>Student Attendance Details</h2>
+
+    <p>
+
+        Roll No:
+        {{ student.roll_no }}
+
+    </p>
+
+    <p>
+
+        Name:
+        {{ student.name }}
+
+    </p>
+
+    <p>
+
+        Course:
+        {{ student.course }}
+
+    </p>
+
+    <p>
+
+        Year:
+        {{ student.year }}
+
+    </p>
+
+    <hr>
+
+    <table border="1" cellpadding="10">
+
+        <tr>
+
+            <th>Date</th>
+
+            <th>Status</th>
+
+        </tr>
+
+        {% for record in records %}
+
+        <tr>
+
+            <td>
+                {{ record.attendance_date }}
+            </td>
+
+            <td>
+                {{ record.status }}
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</body>
+
+</html>

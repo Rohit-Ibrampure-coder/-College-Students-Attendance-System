@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Attendance Report</title>
+</head>
+
+<body>
+
+<h2>Attendance Report</h2>
+
+<form method="GET">
+
+    <p>
+        Date
+
+        <input
+            type="date"
+            name="attendance_date"
+            value="{{ attendance_date }}"
+        >
+    </p>
+
+    <p>
+        Course
+
+        <select name="course">
+
+            <option value="">
+                All
+            </option>
+
+            <option value="BCA">
+                BCA
+            </option>
+
+        </select>
+
+    </p>
+
+    <p>
+        Year
+
+        <select name="year">
+
+            <option value="">
+                All
+            </option>
+
+            <option value="First Year">
+                First Year
+            </option>
+
+            <option value="Second Year">
+                Second Year
+            </option>
+
+            <option value="Third Year">
+                Third Year
+            </option>
+
+        </select>
+
+    </p>
+
+    <button type="submit">
+        Search
+    </button>
+
+</form>
+
+<hr>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+
+        <th>Date</th>
+
+        <th>Roll No</th>
+
+        <th>Student Name</th>
+
+        <th>Status</th>
+
+    </tr>
+
+    {% for record in records %}
+
+    <tr>
+
+        <td>
+            {{ record.attendance_date }}
+        </td>
+
+        <td>
+            {{ record.student.roll_no }}
+        </td>
+
+        <td>
+            {{ record.student.name }}
+        </td>
+
+        <td>
+            {{ record.status }}
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+</body>
+
+</html>

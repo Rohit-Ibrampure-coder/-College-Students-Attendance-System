@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <h2>Dashboard</h2>
+
+    <h3>
+        Welcome {{ current_user.name }}
+    </h3>
+
+    <p>
+        Role:
+        {{ current_user.role }}
+    </p>
+
+    <hr>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
+    </a>
+
+    <a href="/attendance-report">
+        Attendance Report
+    </a>
+
+    <a href="/attendance-summary">
+        Attendance Summary
+    </a>
+
+</body>
+
+</html>

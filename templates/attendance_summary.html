@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Attendance Summary</title>
+</head>
+
+<body>
+
+<h2>Attendance Summary</h2>
+
+<table border="1" cellpadding="10">
+
+    <tr>
+
+        <th>Roll No</th>
+
+        <th>Name</th>
+        
+        <th>Present</th>
+        
+        <th>Absent</th>
+        
+        <th>Total Days</th>
+
+        <th>Attendance %</th>
+        
+        <th>Status</th>
+        
+    </tr>
+
+    {% for row in report %}
+
+    <tr>
+
+        <td>
+            {{ row.student.roll_no }}
+        </td>
+
+        <td>
+
+            <a href="/student-attendance/{{ row.student.id }}">
+
+                {{ row.student.name }}
+
+            </a>
+
+        </td>
+
+        <td>
+            {{ row.present_days }}
+        </td>
+        
+        <td>
+            {{ row.absent_days }}
+        </td>
+
+        <td>
+            {{ row.total_days }}
+        </td>
+        
+        <td>
+            {{ row.percentage }}%
+        </td>
+
+        <td>
+            {{ row.status }}%
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Student</title>
+</head>
+
+<body>
+
+<h2>Edit Student</h2>
+
+<form method="POST">
+
+    <p>
+        Roll Number
+        <input type="text"
+               name="roll_no"
+               value="{{ student.roll_no }}"
+               required>
+    </p>
+
+    <p>
+        Student Name
+        <input type="text"
+               name="name"
+               value="{{ student.name }}"
+               required>
+    </p>
+
+    <p>
+        Email
+        <input type="email"
+               name="email"
+               value="{{ student.email }}">
+    </p>
+
+    <p>
+        Phone
+    
+        <input type="text" name="phone" value="{{ student.phone }}" pattern="[0-9]{10}" maxlength="10" minlength="10" required>
+    
+    </p>
+
+    <p>
+        Course
+
+        <select name="course">
+
+            <option value="BCA"
+                {% if student.course == "BCA" %}
+                selected
+                {% endif %}
+            >
+                BCA
+            </option>
+
+        </select>
+    </p>
+
+    <p>
+        Year
+
+        <select name="year">
+
+            <option value="First Year"
+                {% if student.year == "First Year" %}
+                selected
+                {% endif %}
+            >
+                First Year
+            </option>
+
+            <option value="Second Year"
+                {% if student.year == "Second Year" %}
+                selected
+                {% endif %}
+            >
+                Second Year
+            </option>
+
+            <option value="Third Year"
+                {% if student.year == "Third Year" %}
+                selected
+                {% endif %}
+            >
+                Third Year
+            </option>
+
+        </select>
+    </p>
+
+    <button type="submit">
+        Update Student
+    </button>
+
+</form>
+
+<br>
+
+<a href="/students">
+    Back
+</a>
+
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Attendance</title>
+</head>
+
+<body>
+
+<h2>Mark Attendance</h2>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+
+```
+    {% for category, message in messages %}
+
+        <p>
+            {{ message }}
+        </p>
+
+    {% endfor %}
+
+{% endif %}
+```
+
+{% endwith %}
+
+
+<form method="POST">
+
+    <p>
+        Course
+
+        <select name="course">
+
+            <option value="BCA">
+                BCA
+            </option>
+
+        </select>
+    </p>
+
+    <p>
+        Year
+
+        <select name="year">
+
+            <option value="First Year">
+                First Year
+            </option>
+
+            <option value="Second Year">
+                Second Year
+            </option>
+
+            <option value="Third Year">
+                Third Year
+            </option>
+
+        </select>
+    </p>
+
+    <p>
+        Date
+
+        <input
+            type="date"
+            name="attendance_date"
+            required
+        >
+    </p>
+
+    <button type="submit">
+        Load Students
+    </button>
+
+</form>
+
+<hr>
+
+{% if students %}
+
+<h3>Attendance Details</h3>
+
+<p>
+    Course: {{ course }}
+    |
+    Year: {{ year }}
+    |
+    Date: {{ attendance_date }}
+</p>
+
+<form method="POST" action="/save-attendance">
+
+    <input
+        type="hidden"
+        name="attendance_date"
+        value="{{ attendance_date }}"
+    >
+
+    <input
+        type="hidden"
+        name="course"
+        value="{{ course }}"
+    >
+
+    <input
+        type="hidden"
+        name="year"
+        value="{{ year }}"
+    >
+
+    <table border="1" cellpadding="10">
+
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Present</th>
+            <th>Absent</th>
+        </tr>
+
+        {% for student in students %}
+
+        <tr>
+
+            <td>
+                {{ student.roll_no }}
+            </td>
+
+            <td>
+                {{ student.name }}
+            </td>
+
+            <td align="center">
+
+                <input
+                    type="radio"
+                    name="status_{{ student.id }}"
+                    value="Present"
+                    required
+                >
+
+            </td>
+
+            <td align="center">
+
+                <input
+                    type="radio"
+                    name="status_{{ student.id }}"
+                    value="Absent"
+                >
+
+            </td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br>
+
+    <button type="submit">
+        Save Attendance
+    </button>
+
+</form>
+
+{% endif %}
+
+</body>
+
+</html>
