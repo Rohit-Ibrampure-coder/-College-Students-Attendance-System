@@ -20,16 +20,49 @@
 
     <hr>
 
-    <a href="{{ url_for('auth.logout') }}">
-        Logout
+    <h3>Student Management</h3>
+
+    <a href="/students">
+        Students
     </a>
+
+    <br><br>
+
+    <h3>Attendance Management</h3>
+
+    <a href="/attendance">
+        Mark Attendance
+    </a>
+
+    <br><br>
 
     <a href="/attendance-report">
         Attendance Report
     </a>
 
+    <br><br>
+
     <a href="/attendance-summary">
         Attendance Summary
+    </a>
+
+    <br><br>
+
+    {% if current_user.role == "admin" %}
+
+    <h3>Admin Features</h3>
+
+    <p>
+        Teacher Management
+        (Coming Soon)
+    </p>
+
+    {% endif %}
+
+    <hr>
+
+    <a href="{{ url_for('auth.logout') }}">
+        Logout
     </a>
 
 </body>

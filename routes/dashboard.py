@@ -4,7 +4,8 @@ from flask import (
 )
 
 from flask_login import (
-    login_required
+    login_required,
+    current_user
 )
 
 dashboard_bp = Blueprint(
@@ -18,5 +19,6 @@ dashboard_bp = Blueprint(
 def dashboard():
 
     return render_template(
-        "dashboard.html"
+        "dashboard.html",
+        user=current_user
     )
