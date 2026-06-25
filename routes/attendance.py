@@ -80,7 +80,15 @@ def save_attendance():
         ).first()
 
         if existing:
-            continue
+            
+            flash(
+                f"Attendance already exists for {attendance_date}",
+                "warning"
+            )
+
+            return redirect(
+                url_for("attendance.attendance")
+            )
 
         status = request.form.get(
             f"status_{student.id}"
@@ -227,6 +235,26 @@ def attendance_summary():
         report=report,
         course=course,
         year=year
+    )
+
+@attendance_bp.route(
+    "/student-attendance/<int:student_id>"
+)
+@login_required
+def student_attendance(student_id):
+
+    student = Student.query.get_or_404(
+        student_id
+    )
+
+    records = Attendance.query.filter_by(
+        student_id=student_id
+    ).all()
+
+    return render_template(
+        "student_attendance.html",
+        student=student,
+        records=records
     )
 
 @attendance_bp.route(

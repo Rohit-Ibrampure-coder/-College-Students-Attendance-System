@@ -241,10 +241,13 @@ Attendance Summary
                         <td>
 
                             <a
-                                href="/student-attendance/{{ row.student.id }}"
+                                href="{{ url_for(
+                                    'attendance.student_attendance',
+                                    student_id=row.student.id
+                                ) }}"
                                 class="btn btn-info btn-sm">
 
-                                View
+                                View Details
 
                             </a>
 

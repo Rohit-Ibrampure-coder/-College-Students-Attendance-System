@@ -111,6 +111,46 @@
 
         }
 
+        .quick-card{
+
+            transition: all 0.3s ease;
+
+            border-radius: 15px;
+
+            background: #ffffff;
+
+        }
+
+        .quick-card:hover{
+
+            transform: translateY(-6px);
+
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+
+        }
+
+        .quick-icon{
+
+            font-size: 55px;
+
+        }
+
+        .quick-title{
+
+            font-weight: 600;
+
+            color: #1E293B;
+
+        }
+
+        .quick-text{
+
+            color: #64748B;
+
+            font-size: 14px;
+
+        }
+
     </style>
 
 </head>
@@ -223,6 +263,10 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% block scripts %}
+{% endblock %}
 
 </body>
 
