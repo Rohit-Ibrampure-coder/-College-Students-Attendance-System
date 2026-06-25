@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Attendance</title>
+</head>
+
+<body>
+
+    <h2>Edit Attendance</h2>
+
+    <p>
+        Student:
+        {{ attendance.student.name }}
+    </p>
+
+    <p>
+        Date:
+        {{ attendance.attendance_date }}
+    </p>
+
+    <form method="POST">
+
+        <select name="status">
+
+            <option
+                value="Present"
+                {% if attendance.status == "Present" %}
+                selected
+                {% endif %}
+            >
+                Present
+            </option>
+
+            <option
+                value="Absent"
+                {% if attendance.status == "Absent" %}
+                selected
+                {% endif %}
+            >
+                Absent
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+            Update Attendance
+        </button>
+
+    </form>
+
+</body>
+
+</html>

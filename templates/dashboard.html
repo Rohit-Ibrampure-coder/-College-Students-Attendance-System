@@ -1,70 +1,273 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Dashboard</title>
-</head>
+{% block title %}
+Dashboard
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h2>Dashboard</h2>
+<div class="card border-0 shadow-sm mb-4">
 
-    <h3>
-        Welcome {{ current_user.name }}
-    </h3>
+    <div class="card-body p-4">
 
-    <p>
-        Role:
-        {{ current_user.role }}
-    </p>
+        <h2 class="fw-bold">
 
-    <hr>
+            Welcome Back,
+            {{ current_user.name }} 👋
 
-    <h3>Student Management</h3>
+        </h2>
 
-    <a href="/students">
-        Students
-    </a>
+        <p class="text-muted mb-0">
 
-    <br><br>
+            Manage students, attendance and reports
+            from one dashboard.
 
-    <h3>Attendance Management</h3>
+        </p>
 
-    <a href="/attendance">
-        Mark Attendance
-    </a>
+    </div>
 
-    <br><br>
+</div>
 
-    <a href="/attendance-report">
-        Attendance Report
-    </a>
+<div class="row">
 
-    <br><br>
+    <div class="col-md-4 mb-4">
 
-    <a href="/attendance-summary">
-        Attendance Summary
-    </a>
+        <div class="card border-0 shadow-sm">
 
-    <br><br>
+            <div class="card-body text-center">
 
-    {% if current_user.role == "admin" %}
+                <div class="mb-3">
 
-    <h3>Admin Features</h3>
+                    <i class="bi bi-people-fill
+                              text-primary"
+                       style="font-size:50px;"></i>
 
-    <p>
-        Teacher Management
-        (Coming Soon)
-    </p>
+                </div>
 
-    {% endif %}
+                <h5>
 
-    <hr>
+                    Total Students
 
-    <a href="{{ url_for('auth.logout') }}">
-        Logout
-    </a>
+                </h5>
 
-</body>
+                <h1 class="text-primary">
 
-</html>
+                    {{ total_students }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center">
+
+                <div class="mb-3">
+
+                    <i class="bi bi-calendar-check-fill
+                              text-success"
+                       style="font-size:50px;"></i>
+
+                </div>
+
+                <h5>
+
+                    Attendance Records
+
+                </h5>
+
+                <h1 class="text-success">
+
+                    {{ total_attendance }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card border-0 shadow-sm">
+
+            <div class="card-body text-center">
+
+                <div class="mb-3">
+
+                    <i class="bi bi-exclamation-triangle-fill
+                              text-danger"
+                       style="font-size:50px;"></i>
+
+                </div>
+
+                <h5>
+
+                    Low Attendance
+
+                </h5>
+
+                <h1 class="text-danger">
+
+                    {{ low_attendance_students }}
+
+                </h1>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<h3 class="fw-bold mb-3">
+
+    Quick Actions
+
+</h3>
+
+<div class="row">
+
+    <div class="col-md-3 mb-4">
+
+        <a href="/students"
+           class="text-decoration-none">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-people-fill
+                              text-primary"
+                       style="font-size:55px;"></i>
+
+                    <h5 class="mt-3">
+
+                        Student Management
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        Add, edit and manage students.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="col-md-3 mb-4">
+
+        <a href="/attendance"
+           class="text-decoration-none">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-calendar-check-fill
+                              text-success"
+                       style="font-size:55px;"></i>
+
+                    <h5 class="mt-3">
+
+                        Mark Attendance
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        Record daily attendance.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="col-md-3 mb-4">
+
+        <a href="/attendance-report"
+           class="text-decoration-none">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-file-earmark-bar-graph-fill
+                              text-warning"
+                       style="font-size:55px;"></i>
+
+                    <h5 class="mt-3">
+
+                        Attendance Report
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        View attendance records.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+    <div class="col-md-3 mb-4">
+
+        <a href="/attendance-summary"
+           class="text-decoration-none">
+
+            <div class="card border-0 shadow-sm h-100">
+
+                <div class="card-body text-center">
+
+                    <i class="bi bi-bar-chart-fill
+                              text-info"
+                       style="font-size:55px;"></i>
+
+                    <h5 class="mt-3">
+
+                        Attendance Summary
+
+                    </h5>
+
+                    <p class="text-muted">
+
+                        View attendance percentage.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

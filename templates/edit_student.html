@@ -1,105 +1,193 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Edit Student</title>
-</head>
+{% block title %}
+Edit Student
+{% endblock %}
 
-<body>
+{% block content %}
 
-<h2>Edit Student</h2>
+<div class="row justify-content-center">
 
-<form method="POST">
+    <div class="col-lg-8">
 
-    <p>
-        Roll Number
-        <input type="text"
-               name="roll_no"
-               value="{{ student.roll_no }}"
-               required>
-    </p>
+        <div class="card border-0 shadow-sm">
 
-    <p>
-        Student Name
-        <input type="text"
-               name="name"
-               value="{{ student.name }}"
-               required>
-    </p>
+            <div class="card-header bg-warning">
 
-    <p>
-        Email
-        <input type="email"
-               name="email"
-               value="{{ student.email }}">
-    </p>
+                <h4 class="mb-0">
 
-    <p>
-        Phone
-    
-        <input type="text" name="phone" value="{{ student.phone }}" pattern="[0-9]{10}" maxlength="10" minlength="10" required>
-    
-    </p>
+                    Edit Student
 
-    <p>
-        Course
+                </h4>
 
-        <select name="course">
+            </div>
 
-            <option value="BCA"
-                {% if student.course == "BCA" %}
-                selected
-                {% endif %}
-            >
-                BCA
-            </option>
+            <div class="card-body">
 
-        </select>
-    </p>
+                <form method="POST">
 
-    <p>
-        Year
+                    <div class="mb-3">
 
-        <select name="year">
+                        <label class="form-label">
 
-            <option value="First Year"
-                {% if student.year == "First Year" %}
-                selected
-                {% endif %}
-            >
-                First Year
-            </option>
+                            Roll Number
 
-            <option value="Second Year"
-                {% if student.year == "Second Year" %}
-                selected
-                {% endif %}
-            >
-                Second Year
-            </option>
+                        </label>
 
-            <option value="Third Year"
-                {% if student.year == "Third Year" %}
-                selected
-                {% endif %}
-            >
-                Third Year
-            </option>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="roll_no"
+                            value="{{ student.roll_no }}"
+                            required>
 
-        </select>
-    </p>
+                    </div>
 
-    <button type="submit">
-        Update Student
-    </button>
+                    <div class="mb-3">
 
-</form>
+                        <label class="form-label">
 
-<br>
+                            Student Name
 
-<a href="/students">
-    Back
-</a>
+                        </label>
 
-</body>
-</html>
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="name"
+                            value="{{ student.name }}"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Email
+
+                        </label>
+
+                        <input
+                            type="email"
+                            class="form-control"
+                            name="email"
+                            value="{{ student.email }}">
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Phone Number
+
+                        </label>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            name="phone"
+                            value="{{ student.phone }}"
+                            pattern="[0-9]{10}"
+                            maxlength="10"
+                            minlength="10"
+                            required>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Course
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="course">
+
+                            <option value="BCA"
+                                {% if student.course == "BCA" %}
+                                selected
+                                {% endif %}
+                            >
+                                BCA
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Year
+
+                        </label>
+
+                        <select
+                            class="form-select"
+                            name="year">
+
+                            <option value="First Year"
+                                {% if student.year == "First Year" %}
+                                selected
+                                {% endif %}
+                            >
+                                First Year
+                            </option>
+
+                            <option value="Second Year"
+                                {% if student.year == "Second Year" %}
+                                selected
+                                {% endif %}
+                            >
+                                Second Year
+                            </option>
+
+                            <option value="Third Year"
+                                {% if student.year == "Third Year" %}
+                                selected
+                                {% endif %}
+                            >
+                                Third Year
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="d-flex gap-2">
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning">
+
+                            Update Student
+
+                        </button>
+
+                        <a
+                            href="/students"
+                            class="btn btn-secondary">
+
+                            Back
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

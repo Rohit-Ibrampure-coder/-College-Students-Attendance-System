@@ -1,84 +1,191 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Students</title>
-</head>
+{% block title %}
+Students
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h2>Students List</h2>
+<div class="d-flex justify-content-between align-items-center mb-4">
 
-    <form method="GET">
-    
-        <input type="text" name="search" placeholder="Search Student" value="{{ search }}">
-    
-        <button type="submit">
-            Search
-        </button>
-    
-    </form>
-    
-    <br>
+    <div>
 
-    <a href="/dashboard">
-        Dashboard
-    </a>
+        <h2 class="fw-bold">
 
-    <br><br>
+            Student Management
 
-    <a href="/add-student">
+        </h2>
+
+        <p class="text-muted">
+
+            Manage all BCA students from here.
+
+        </p>
+
+    </div>
+
+    <a
+        href="/add-student"
+        class="btn btn-primary">
+
         Add Student
+
     </a>
 
-    <hr>
+</div>
 
-    {% if students %}
+<div class="card border-0 shadow-sm">
 
-    {% for student in students %}
+    <div class="card-body">
 
-    <p>
+        <form method="GET">
 
-        Roll No:
-        {{ student.roll_no }}
+            <div class="row">
 
-        |
+                <div class="col-md-10 mb-2">
 
-        Name:
-        {{ student.name }}
+                    <input
+                        type="text"
+                        class="form-control"
+                        name="search"
+                        placeholder="Search by Name, Roll Number or Course"
+                        value="{{ search }}">
 
-        |
+                </div>
 
-        Course:
-        {{ student.course }}
+                <div class="col-md-2 mb-2">
 
-        |
+                    <button
+                        type="submit"
+                        class="btn btn-dark w-100">
 
-        Year:
-        {{ student.year }}
+                        Search
 
-        |
+                    </button>
 
-        <a href="/edit-student/{{ student.id }}">
-            Edit
-        </a>
+                </div>
 
-        |
+            </div>
 
-        <a href="/delete-student/{{ student.id }}">
-            Delete
-        </a>
+        </form>
 
-    </p>
+    </div>
 
-    {% endfor %}
+</div>
 
-    {% else %}
+<br>
 
-    <p>No students found.</p>
+<div class="card border-0 shadow-sm">
 
-    {% endif %}
+    <div class="card-body">
 
-</body>
+        {% if students %}
 
-</html>
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>
+                            Roll No
+                        </th>
+
+                        <th>
+                            Name
+                        </th>
+
+                        <th>
+                            Course
+                        </th>
+
+                        <th>
+                            Year
+                        </th>
+
+                        <th>
+                            Actions
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for student in students %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ student.roll_no }}
+
+                        </td>
+
+                        <td>
+
+                            {{ student.name }}
+
+                        </td>
+
+                        <td>
+
+                            {{ student.course }}
+
+                        </td>
+
+                        <td>
+
+                            {{ student.year }}
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="/edit-student/{{ student.id }}"
+                                class="btn btn-sm btn-warning">
+
+                                Edit
+
+                            </a>
+
+                            <a
+                                href="/delete-student/{{ student.id }}"
+                                class="btn btn-sm btn-danger"
+                                onclick="return confirm('Delete this student?')">
+
+                                Delete
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="alert alert-warning">
+
+            No students found.
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,72 +1,183 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Student Attendance</title>
-</head>
+{% block title %}
+Student Attendance Details
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h2>Student Attendance Details</h2>
+<div class="card border-0 shadow-sm mb-4">
 
-    <p>
+    <div class="card-body">
 
-        Roll No:
-        {{ student.roll_no }}
+        <div class="d-flex justify-content-between align-items-center">
 
-    </p>
+            <div>
 
-    <p>
+                <h2 class="fw-bold">
 
-        Name:
-        {{ student.name }}
+                    Student Attendance Details
 
-    </p>
+                </h2>
 
-    <p>
+                <p class="text-muted mb-0">
 
-        Course:
-        {{ student.course }}
+                    Complete attendance history of the student.
 
-    </p>
+                </p>
 
-    <p>
+            </div>
 
-        Year:
-        {{ student.year }}
+            <a
+                href="/attendance-summary"
+                class="btn btn-secondary">
 
-    </p>
+                Back
 
-    <hr>
+            </a>
 
-    <table border="1" cellpadding="10">
+        </div>
 
-        <tr>
+    </div>
 
-            <th>Date</th>
+</div>
 
-            <th>Status</th>
+<div class="row mb-4">
 
-        </tr>
+    <div class="col-md-6">
 
-        {% for record in records %}
+        <div class="card border-0 shadow-sm">
 
-        <tr>
+            <div class="card-body">
 
-            <td>
-                {{ record.attendance_date }}
-            </td>
+                <h5 class="fw-bold">
 
-            <td>
-                {{ record.status }}
-            </td>
+                    Student Information
 
-        </tr>
+                </h5>
 
-        {% endfor %}
+                <hr>
 
-    </table>
+                <p>
 
-</body>
+                    <strong>Roll No:</strong>
 
-</html>
+                    {{ student.roll_no }}
+
+                </p>
+
+                <p>
+
+                    <strong>Name:</strong>
+
+                    {{ student.name }}
+
+                </p>
+
+                <p>
+
+                    <strong>Course:</strong>
+
+                    {{ student.course }}
+
+                </p>
+
+                <p>
+
+                    <strong>Year:</strong>
+
+                    {{ student.year }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-header bg-dark text-white">
+
+        Attendance History
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>
+
+                            Date
+
+                        </th>
+
+                        <th>
+
+                            Status
+
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for record in records %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ record.attendance_date }}
+
+                        </td>
+
+                        <td>
+
+                            {% if record.status == "Present" %}
+
+                                <span class="badge bg-success">
+
+                                    Present
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Absent
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

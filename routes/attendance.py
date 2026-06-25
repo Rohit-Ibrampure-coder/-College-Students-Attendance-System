@@ -12,6 +12,7 @@ from flask_login import current_user
 from extensions import db
 from models.attendance import Attendance
 
+
 attendance_bp = Blueprint(
     "attendance",
     __name__
@@ -163,7 +164,22 @@ def attendance_report():
 @login_required
 def attendance_summary():
 
-    students = Student.query.all()
+    course = request.args.get("course")
+    year = request.args.get("year")
+
+    students = Student.query
+
+    if course:
+        students = students.filter_by(
+            course=course
+        )
+
+    if year:
+        students = students.filter_by(
+            year=year
+        )
+
+    students = students.all()
 
     report = []
 
@@ -208,25 +224,55 @@ def attendance_summary():
 
     return render_template(
         "attendance_summary.html",
-        report=report
+        report=report,
+        course=course,
+        year=year
     )
 
 @attendance_bp.route(
-    "/student-attendance/<int:student_id>"
+    "/edit-attendance/<int:id>",
+    methods=["GET", "POST"]
 )
 @login_required
-def student_attendance(student_id):
+def edit_attendance(id):
 
-    student = Student.query.get_or_404(
-        student_id
-    )
+    attendance = Attendance.query.get_or_404(id)
 
-    records = Attendance.query.filter_by(
-        student_id=student_id
-    ).all()
+    if request.method == "POST":
+
+        attendance.status = request.form["status"]
+
+        db.session.commit()
+
+        return redirect(
+            url_for(
+                "attendance.attendance_report"
+            )
+        )
 
     return render_template(
-        "student_attendance.html",
-        student=student,
-        records=records
+        "edit_attendance.html",
+        attendance=attendance
+    )
+
+@attendance_bp.route(
+    "/delete-attendance/<int:id>"
+)
+@login_required
+def delete_attendance(id):
+
+    attendance = Attendance.query.get_or_404(
+        id
+    )
+
+    db.session.delete(
+        attendance
+    )
+
+    db.session.commit()
+
+    return redirect(
+        url_for(
+            "attendance.attendance_report"
+        )
     )

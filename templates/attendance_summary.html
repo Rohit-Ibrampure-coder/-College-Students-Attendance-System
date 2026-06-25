@@ -1,78 +1,267 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Attendance Summary</title>
-</head>
+{% block title %}
+Attendance Summary
+{% endblock %}
 
-<body>
+{% block content %}
 
-<h2>Attendance Summary</h2>
+<div class="card border-0 shadow-sm mb-4">
 
-<table border="1" cellpadding="10">
+    <div class="card-body">
 
-    <tr>
+        <h2 class="fw-bold">
 
-        <th>Roll No</th>
+            Attendance Summary
 
-        <th>Name</th>
-        
-        <th>Present</th>
-        
-        <th>Absent</th>
-        
-        <th>Total Days</th>
+        </h2>
 
-        <th>Attendance %</th>
-        
-        <th>Status</th>
-        
-    </tr>
+        <p class="text-muted">
 
-    {% for row in report %}
+            Monitor attendance percentage and identify low attendance students.
 
-    <tr>
+        </p>
 
-        <td>
-            {{ row.student.roll_no }}
-        </td>
+    </div>
 
-        <td>
+</div>
 
-            <a href="/student-attendance/{{ row.student.id }}">
+<div class="card border-0 shadow-sm mb-4">
 
-                {{ row.student.name }}
+    <div class="card-body">
 
-            </a>
+        <form method="GET">
 
-        </td>
+            <div class="row">
 
-        <td>
-            {{ row.present_days }}
-        </td>
-        
-        <td>
-            {{ row.absent_days }}
-        </td>
+                <div class="col-md-5">
 
-        <td>
-            {{ row.total_days }}
-        </td>
-        
-        <td>
-            {{ row.percentage }}%
-        </td>
+                    <label class="form-label">
 
-        <td>
-            {{ row.status }}%
-        </td>
+                        Course
 
-    </tr>
+                    </label>
 
-    {% endfor %}
+                    <select
+                        name="course"
+                        class="form-select">
 
-</table>
+                        <option value="">
+                            All Courses
+                        </option>
 
-</body>
+                        <option
+                            value="BCA"
+                            {% if course == "BCA" %}
+                            selected
+                            {% endif %}
+                        >
+                            BCA
+                        </option>
 
-</html>
+                    </select>
+
+                </div>
+
+                <div class="col-md-5">
+
+                    <label class="form-label">
+
+                        Year
+
+                    </label>
+
+                    <select
+                        name="year"
+                        class="form-select">
+
+                        <option value="">
+                            All Years
+                        </option>
+
+                        <option
+                            value="First Year"
+                            {% if year == "First Year" %}
+                            selected
+                            {% endif %}
+                        >
+                            First Year
+                        </option>
+
+                        <option
+                            value="Second Year"
+                            {% if year == "Second Year" %}
+                            selected
+                            {% endif %}
+                        >
+                            Second Year
+                        </option>
+
+                        <option
+                            value="Third Year"
+                            {% if year == "Third Year" %}
+                            selected
+                            {% endif %}
+                        >
+                            Third Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary w-100">
+
+                        Show
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm">
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Roll No</th>
+
+                        <th>Name</th>
+
+                        <th>Present</th>
+
+                        <th>Absent</th>
+
+                        <th>Total Days</th>
+
+                        <th>Attendance %</th>
+
+                        <th>Status</th>
+
+                        <th>Details</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in report %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ row.student.roll_no }}
+
+                        </td>
+
+                        <td>
+
+                            {{ row.student.name }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-success">
+
+                                {{ row.present_days }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            <span class="badge bg-danger">
+
+                                {{ row.absent_days }}
+
+                            </span>
+
+                        </td>
+
+                        <td>
+
+                            {{ row.total_days }}
+
+                        </td>
+
+                        <td>
+
+                            <strong>
+
+                                {{ row.percentage }}%
+
+                            </strong>
+
+                        </td>
+
+                        <td>
+
+                            {% if row.percentage >= 75 %}
+
+                                <span class="badge bg-success">
+
+                                    Good
+
+                                </span>
+
+                            {% else %}
+
+                                <span class="badge bg-danger">
+
+                                    Low Attendance
+
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+
+                            <a
+                                href="/student-attendance/{{ row.student.id }}"
+                                class="btn btn-info btn-sm">
+
+                                View
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
