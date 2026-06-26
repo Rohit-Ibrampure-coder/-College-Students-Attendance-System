@@ -150,6 +150,7 @@ def attendance_report():
     to_date = request.args.get("to_date")
     course = request.args.get("course")
     year = request.args.get("year")
+    status = request.args.get("status")
 
     query = Attendance.query.join(Student)
 
@@ -177,6 +178,12 @@ def attendance_report():
             Student.year == year
         )
 
+    if status:
+
+        query = query.filter(
+            Attendance.status == status
+        )
+
     records = query.order_by(
         Attendance.attendance_date.desc()
     ).all()
@@ -187,7 +194,8 @@ def attendance_report():
         from_date=from_date,
         to_date=to_date,
         course=course,
-        year=year
+        year=year,
+        status=status
     )
 
 @attendance_bp.route("/attendance-summary")
@@ -196,6 +204,7 @@ def attendance_summary():
 
     course = request.args.get("course")
     year = request.args.get("year")
+    status = request.args.get("status")
 
     students = Student.query
 
@@ -252,11 +261,24 @@ def attendance_summary():
             "status": status
         })
 
+    if status == "Low Attendance":
+
+        report = [
+
+            row
+
+            for row in report
+
+            if row["percentage"] < 75
+
+        ]
+
     return render_template(
         "attendance_summary.html",
         report=report,
         course=course,
-        year=year
+        year=year,
+        status=status
     )
 
 @attendance_bp.route(

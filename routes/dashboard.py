@@ -128,4 +128,5 @@ def dashboard():
         second_year=second_year,
         third_year=third_year,
         selected_year=selected_year,
+        today = today
     )

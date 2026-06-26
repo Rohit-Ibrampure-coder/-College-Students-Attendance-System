@@ -27,16 +27,32 @@ def students():
         ""
     )
 
-    students = Student.query.filter(
+    year = request.args.get(
+        "year",
+        ""
+    )
+
+    query = Student.query.filter(
+
         Student.name.contains(search)
         |
         Student.roll_no.contains(search)
-    ).all()
+
+    )
+
+    if year:
+
+        query = query.filter_by(
+            year=year
+        )
+
+    students = query.all()
 
     return render_template(
         "students.html",
         students=students,
-        search=search
+        search=search,
+        year = year
     )
 
 

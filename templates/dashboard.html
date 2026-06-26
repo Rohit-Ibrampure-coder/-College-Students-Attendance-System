@@ -92,159 +92,216 @@ Dashboard
 
 <div class="row">
 
-    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
+   <div class="col mb-4">
 
-        <div class="card stat-card"
-            style="background:#dbeafe;">
+        <a
+            href="{{ url_for(
+                'student.students',
+                year=selected_year
+            ) }}"
+            class="text-decoration-none">
 
-            <div class="card-body">
+            <div
+                class="card stat-card"
+                style="background:#DBEAFE;">
 
-                <div class="stat-icon text-primary">
+                <div class="card-body">
 
-                    <i class="bi bi-people-fill"></i>
+                    <div class="stat-icon text-primary">
 
-                </div>
+                        <i class="bi bi-people-fill"></i>
 
-                <div class="stat-title">
+                    </div>
 
-                    Total Students
+                    <div class="stat-title">
 
-                </div>
+                        Total Students
 
-                <div class="stat-number">
+                    </div>
 
-                    {{ total_students }}
+                    <div class="stat-number">
+
+                        {{ total_students }}
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+        </a>
+
+    </div> 
+
+    <div class="col mb-4">
+
+        <a
+            href="{{ url_for(
+                'attendance.attendance_report',
+                year=selected_year
+            ) }}"
+            class="text-decoration-none">
+
+            <div
+                class="card stat-card"
+                style="background:#E2E8F0;">
+
+                <div class="card-body">
+
+                    <div class="stat-icon text-secondary">
+
+                        <i class="bi bi-calendar-check-fill"></i>
+
+                    </div>
+
+                    <div class="stat-title">
+
+                        Attendance Records
+
+                    </div>
+
+                    <div class="stat-number">
+
+                        {{ total_attendance }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+    <div class="col mb-4">
+
+        <a
+            href="{{ url_for(
+                'attendance.attendance_report',
+                year=selected_year,
+                from_date=today,
+                to_date=today,
+                status='Present'
+            ) }}"
+            class="text-decoration-none d-block">
+
+            <div
+                class="card stat-card"
+                style="background:#DCFCE7;">
+
+                <div class="card-body">
+
+                    <div class="stat-icon text-success">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    </div>
+
+                    <div class="stat-title">
+
+                        Present Today
+
+                    </div>
+
+                    <div class="stat-number">
+
+                        {{ present_today }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </a>
 
     </div>
 
-    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
+    <div class="col mb-4">
 
-        <div class="card stat-card"
-            style="background:#E2E8F0;">
+        <a
+            href="{{ url_for(
+                'attendance.attendance_report',
+                year=selected_year,
+                from_date=today,
+                to_date=today,
+                status='Absent'
+            ) }}"
+            class="text-decoration-none d-block">
 
-            <div class="card-body">
+            <div
+                class="card stat-card"
+                style="background:#FEE2E2;">
 
-                <div class="stat-icon text-secondary">
+                <div class="card-body">
 
-                    <i class="bi bi-calendar-check-fill"></i>
+                    <div class="stat-icon text-danger">
 
-                </div>
+                        <i class="bi bi-x-circle-fill"></i>
 
-                <div class="stat-title">
+                    </div>
+                    
+                    <div class="stat-title">
 
-                    Attendance Records
+                        Absent Today
 
-                </div>
+                    </div>
 
-                <div class="stat-number">
+                    <div class="stat-number">
 
-                    {{ total_attendance }}
+                        {{ absent_today }}
+
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
+        </a>
 
     </div>
 
-    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
+    <div class="col mb-4">
 
-        <div class="card stat-card"
-            style="background:#DCFCE7;">
+        <a
+            href="{{ url_for(
+                'attendance.attendance_summary',
+                year=selected_year,
+                status='Low Attendance'
+            ) }}"
+            class="text-decoration-none d-block">
 
-            <div class="card-body">
+            <div
+                class="card stat-card"
+                style="background:#FED7AA;">
 
-                <div class="stat-icon text-success">
+                <div class="card-body">
 
-                    <i class="bi bi-check-circle-fill"></i>
+                    <div
+                        class="stat-icon"
+                        style="color:#EA580C;">
 
-                </div>
+                        <i class="bi bi-exclamation-triangle-fill"></i>
 
-                <div class="stat-title">
+                    </div>
 
-                    Present Today
+                    <div class="stat-title">
 
-                </div>
+                        Low Attendance
 
-                <div class="stat-number">
+                    </div>
 
-                    {{ present_today }}
+                    <div class="stat-number">
 
-                </div>
+                        {{ low_attendance_students }}
 
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
-
-        <div class="card stat-card"
-            style="background:#FEE2E2;">
-
-            <div class="card-body">
-
-                <div class="stat-icon text-danger">
-
-                    <i class="bi bi-x-circle-fill"></i>
-
-                </div>
-
-                <div class="stat-title">
-
-                    Absent Today
-
-                </div>
-
-                <div class="stat-number">
-
-                    {{ absent_today }}
+                    </div>
 
                 </div>
 
             </div>
 
-        </div>
-
-    </div>
-
-    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
-
-        <div class="card stat-card"
-            style="background:#FED7AA;">
-
-            <div class="card-body">
-
-                <div class="stat-icon"
-                    style="color:#EA580C;">
-
-                    <i class="bi bi-exclamation-triangle-fill"></i>
-
-                </div>
-
-                <div class="stat-title">
-
-                    Low Attendance
-
-                </div>
-
-                <div class="stat-number">
-
-                    {{ low_attendance_students }}
-
-                </div>
-
-            </div>
-
-        </div>
+        </a>
 
     </div>
 
