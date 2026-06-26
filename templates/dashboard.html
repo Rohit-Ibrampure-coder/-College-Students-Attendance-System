@@ -17,12 +17,74 @@ Dashboard
 
         </h2>
 
-        <p class="text-muted mb-0">
+        <p class="text-muted">
 
             Manage students, attendance and reports
             from one dashboard.
 
         </p>
+
+        <div class="mt-4">
+
+            <h6 class="fw-semibold text-secondary mb-3">
+
+                Select Academic Year
+
+            </h6>
+
+            <ul class="nav nav-pills">
+
+                <li class="nav-item">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard') }}"
+                        class="nav-link {% if not selected_year %}active{% endif %}">
+
+                        All Years
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item ms-2">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard', year='First Year') }}"
+                        class="nav-link {% if selected_year == 'First Year' %}active{% endif %}">
+
+                        First Year
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item ms-2">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard', year='Second Year') }}"
+                        class="nav-link {% if selected_year == 'Second Year' %}active{% endif %}">
+
+                        Second Year
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item ms-2">
+
+                    <a
+                        href="{{ url_for('dashboard.dashboard', year='Third Year') }}"
+                        class="nav-link {% if selected_year == 'Third Year' %}active{% endif %}">
+
+                        Third Year
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
 
     </div>
 
@@ -30,21 +92,30 @@ Dashboard
 
 <div class="row">
 
-    <div class="col-lg-2 col-md-4 col-6 mb-4">
+    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
 
-        <div class="card bg-primary text-white border-0 shadow-sm">
+        <div class="card stat-card"
+            style="background:#dbeafe;">
 
-            <div class="card-body text-center py-3">
+            <div class="card-body">
 
-                <h6>
+                <div class="stat-icon text-primary">
+
+                    <i class="bi bi-people-fill"></i>
+
+                </div>
+
+                <div class="stat-title">
 
                     Total Students
 
-                </h6>
+                </div>
 
-                <h3 class="fw-bold mb-0">
+                <div class="stat-number">
+
                     {{ total_students }}
-                </h3>
+
+                </div>
 
             </div>
 
@@ -52,21 +123,30 @@ Dashboard
 
     </div>
 
-    <div class="col-lg-2 col-md-4 col-6 mb-4">
+    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
 
-        <div class="card bg-dark text-white border-0 shadow-sm">
+        <div class="card stat-card"
+            style="background:#E2E8F0;">
 
-            <div class="card-body text-center py-3">
+            <div class="card-body">
 
-                <h6>
+                <div class="stat-icon text-secondary">
+
+                    <i class="bi bi-calendar-check-fill"></i>
+
+                </div>
+
+                <div class="stat-title">
 
                     Attendance Records
 
-                </h6>
+                </div>
 
-                <h3 class="fw-bold mb-0">
+                <div class="stat-number">
+
                     {{ total_attendance }}
-                </h3>
+
+                </div>
 
             </div>
 
@@ -74,21 +154,30 @@ Dashboard
 
     </div>
 
-    <div class="col-lg-2 col-md-4 col-6 mb-4">
+    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
 
-        <div class="card bg-success text-white border-0 shadow-sm">
+        <div class="card stat-card"
+            style="background:#DCFCE7;">
 
-            <div class="card-body text-center py-3">
+            <div class="card-body">
 
-                <h6>
+                <div class="stat-icon text-success">
+
+                    <i class="bi bi-check-circle-fill"></i>
+
+                </div>
+
+                <div class="stat-title">
 
                     Present Today
 
-                </h6>
+                </div>
 
-                <h3 class="fw-bold mb-0">
+                <div class="stat-number">
+
                     {{ present_today }}
-                </h3>
+
+                </div>
 
             </div>
 
@@ -96,21 +185,30 @@ Dashboard
 
     </div>
 
-    <div class="col-lg-2 col-md-4 col-6 mb-4">
+    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
 
-        <div class="card bg-danger text-white border-0 shadow-sm">
+        <div class="card stat-card"
+            style="background:#FEE2E2;">
 
-            <div class="card-body text-center py-3">
+            <div class="card-body">
 
-                <h6>
+                <div class="stat-icon text-danger">
+
+                    <i class="bi bi-x-circle-fill"></i>
+
+                </div>
+
+                <div class="stat-title">
 
                     Absent Today
 
-                </h6>
+                </div>
 
-                <h3 class="fw-bold mb-0">
+                <div class="stat-number">
+
                     {{ absent_today }}
-                </h3>
+
+                </div>
 
             </div>
 
@@ -118,21 +216,31 @@ Dashboard
 
     </div>
 
-    <div class="col-lg-4 col-md-8 col-12 mb-4">
+    <div class="col-xl col-lg-4 col-md-6 col-12 mb-4">
 
-        <div class="card bg-warning border-0 shadow-sm">
+        <div class="card stat-card"
+            style="background:#FED7AA;">
 
-            <div class="card-body text-center py-3">
+            <div class="card-body">
 
-                <h6 class="text-dark">
+                <div class="stat-icon"
+                    style="color:#EA580C;">
 
-                    Low Attendance Students
+                    <i class="bi bi-exclamation-triangle-fill"></i>
 
-                </h6>
+                </div>
 
-                <h3 class="fw-bold mb-0">
+                <div class="stat-title">
+
+                    Low Attendance
+
+                </div>
+
+                <div class="stat-number">
+
                     {{ low_attendance_students }}
-                </h3>
+
+                </div>
 
             </div>
 
@@ -199,15 +307,13 @@ Dashboard
         <a href="/students"
            class="text-decoration-none">
 
-            <div class="card quick-card border-0 shadow-sm h-100">
+            <div class="card quick-card shadow-sm h-100">
 
                 <div class="card-body text-center">
 
-                    <i class="bi bi-people-fill
-                              text-primary"
-                       style="font-size:55px;"></i>
+                    <i class="bi bi-people-fill text-primary quick-icon"></i>
 
-                    <h5 class="mt-3">
+                    <h5 class="mt-3 quick-title">
 
                         Student Management
 
@@ -232,15 +338,13 @@ Dashboard
         <a href="/attendance"
            class="text-decoration-none">
 
-            <div class="card border-0 shadow-sm h-100">
+            <div class="card quick-card shadow-sm h-100">
 
                 <div class="card-body text-center">
 
-                    <i class="bi bi-calendar-check-fill
-                              text-success"
-                       style="font-size:55px;"></i>
+                    <i class="bi bi-calendar-check-fill text-success quick-icon"></i>
 
-                    <h5 class="mt-3">
+                    <h5 class="mt-3 quick-title">
 
                         Mark Attendance
 
@@ -265,15 +369,13 @@ Dashboard
         <a href="/attendance-report"
            class="text-decoration-none">
 
-            <div class="card border-0 shadow-sm h-100">
+            <div class="card quick-card shadow-sm h-100">
 
                 <div class="card-body text-center">
 
-                    <i class="bi bi-file-earmark-bar-graph-fill
-                              text-warning"
-                       style="font-size:55px;"></i>
+                    <i class="bi bi-file-earmark-bar-graph-fill text-warning quick-icon"></i>
 
-                    <h5 class="mt-3">
+                    <h5 class="mt-3 quick-title">
 
                         Attendance Report
 
@@ -298,15 +400,13 @@ Dashboard
         <a href="/attendance-summary"
            class="text-decoration-none">
 
-            <div class="card border-0 shadow-sm h-100">
+            <div class="card quick-card shadow-sm h-100">
 
                 <div class="card-body text-center">
 
-                    <i class="bi bi-bar-chart-fill
-                              text-info"
-                       style="font-size:55px;"></i>
+                    <i class="bi bi-bar-chart-fill text-info quick-icon"></i>
 
-                    <h5 class="mt-3">
+                    <h5 class="mt-3 quick-title">
 
                         Attendance Summary
 

@@ -1,6 +1,7 @@
 from flask import (
     Blueprint,
-    render_template
+    render_template,
+    request
 )
 
 from flask_login import (
@@ -21,21 +22,64 @@ dashboard_bp = Blueprint(
 @login_required
 def dashboard():
 
-    total_students = Student.query.count()
+    selected_year = request.args.get(
+        "year"
+    )
 
-    total_attendance = Attendance.query.count()
+    students_query = Student.query
+
+    if selected_year:
+
+        students_query = students_query.filter_by(
+            year=selected_year
+        )
+
+    students = students_query.all()
+    total_students = len(
+        students
+    )
+
+    attendance_query = Attendance.query
+
+    if selected_year:
+
+        attendance_query = attendance_query.join(
+            Student
+        ).filter(
+            Student.year == selected_year
+        )
+
+    total_attendance = attendance_query.count()
 
     today = date.today()
 
-    present_today = Attendance.query.filter_by(
+    present_query = Attendance.query.filter_by(
         attendance_date=today,
         status="Present"
-    ).count()
+    )
+    if selected_year:
 
-    absent_today = Attendance.query.filter_by(
+        present_query = present_query.join(
+            Student
+        ).filter(
+            Student.year == selected_year
+        )
+
+    present_today = present_query.count()
+
+    absent_query = Attendance.query.filter_by(
         attendance_date=today,
         status="Absent"
-    ).count()
+    )
+    if selected_year:
+
+        absent_query = absent_query.join(
+            Student
+        ).filter(
+            Student.year == selected_year
+        )
+
+    absent_today = absent_query.count()
 
     first_year = Student.query.filter_by(
         year="First Year"
@@ -51,7 +95,6 @@ def dashboard():
 
     low_attendance_students = 0
 
-    students = Student.query.all()
 
     for student in students:
 
@@ -83,5 +126,6 @@ def dashboard():
         absent_today=absent_today,
         first_year=first_year,
         second_year=second_year,
-        third_year=third_year
+        third_year=third_year,
+        selected_year=selected_year,
     )

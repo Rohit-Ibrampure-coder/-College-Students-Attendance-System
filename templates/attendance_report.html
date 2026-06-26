@@ -34,23 +34,39 @@ Attendance Report
 
             <div class="row">
 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
 
                     <label class="form-label">
 
-                        Date
+                        From Date
 
                     </label>
 
                     <input
                         type="date"
                         class="form-control"
-                        name="attendance_date"
-                        value="{{ attendance_date }}">
+                        name="from_date"
+                        value="{{ from_date }}">
 
                 </div>
 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
+
+                    <label class="form-label">
+
+                        To Date
+
+                    </label>
+
+                    <input
+                        type="date"
+                        class="form-control"
+                        name="to_date"
+                        value="{{ to_date }}">
+
+                </div>
+
+                <div class="col-md-3 mb-3">
 
                     <label class="form-label">
 
@@ -83,7 +99,7 @@ Attendance Report
 
                 </div>
 
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
 
                     <label class="form-label">
 
@@ -142,6 +158,21 @@ Attendance Report
 
             </button>
 
+            <a
+                href="{{ url_for(
+                'attendance.attendance_report_pdf',
+                course=course,
+                year=year,
+                from_date=from_date,
+                to_date=to_date
+                ) }}"
+                
+                class="btn btn-danger">
+
+                    Download PDF
+
+            </a>
+            
         </form>
 
     </div>

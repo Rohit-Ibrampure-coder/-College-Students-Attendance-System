@@ -1,56 +1,126 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-    <title>Edit Attendance</title>
-</head>
+{% block title %}
+Edit Attendance
+{% endblock %}
 
-<body>
+{% block content %}
 
-    <h2>Edit Attendance</h2>
+<div class="row justify-content-center">
 
-    <p>
-        Student:
-        {{ attendance.student.name }}
-    </p>
+    <div class="col-lg-6 col-md-8">
 
-    <p>
-        Date:
-        {{ attendance.attendance_date }}
-    </p>
+        <div class="card border-0 shadow-sm">
 
-    <form method="POST">
+            <div class="card-header bg-warning">
 
-        <select name="status">
+                <h3 class="mb-0 fw-bold">
 
-            <option
-                value="Present"
-                {% if attendance.status == "Present" %}
-                selected
-                {% endif %}
-            >
-                Present
-            </option>
+                    Edit Attendance
 
-            <option
-                value="Absent"
-                {% if attendance.status == "Absent" %}
-                selected
-                {% endif %}
-            >
-                Absent
-            </option>
+                </h3>
 
-        </select>
+            </div>
 
-        <br><br>
+            <div class="card-body p-4">
 
-        <button type="submit">
-            Update Attendance
-        </button>
+                <div class="mb-3">
 
-    </form>
+                    <label class="form-label fw-bold">
 
-</body>
+                        Student Name
 
-</html>
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        value="{{ attendance.student.name }}"
+                        readonly
+                    >
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label fw-bold">
+
+                        Attendance Date
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        value="{{ attendance.attendance_date }}"
+                        readonly
+                    >
+
+                </div>
+
+                <form method="POST">
+
+                    <div class="mb-4">
+
+                        <label class="form-label fw-bold">
+
+                            Attendance Status
+
+                        </label>
+
+                        <select
+                            name="status"
+                            class="form-select"
+                        >
+
+                            <option
+                                value="Present"
+                                {% if attendance.status == "Present" %}
+                                selected
+                                {% endif %}
+                            >
+                                Present
+                            </option>
+
+                            <option
+                                value="Absent"
+                                {% if attendance.status == "Absent" %}
+                                selected
+                                {% endif %}
+                            >
+                                Absent
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="d-flex gap-2">
+
+                        <button
+                            type="submit"
+                            class="btn btn-success"
+                        >
+                            Update Attendance
+                        </button>
+
+                        <a
+                            href="/attendance-report"
+                            class="btn btn-secondary"
+                        >
+                            Back
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
