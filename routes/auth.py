@@ -3,7 +3,7 @@ from flask import (
     render_template,
     request,
     redirect,
-    url_for
+    url_for,flash
 )
 
 from flask_login import login_user
@@ -40,7 +40,14 @@ def login():
                 url_for("dashboard.dashboard")
             )
 
-    return render_template("login.html")
+        flash(
+            "Invalid email or password.",
+            "danger"
+        )
+
+    return render_template(
+        "login.html"
+    )
 
 @auth_bp.route("/logout")
 @login_required

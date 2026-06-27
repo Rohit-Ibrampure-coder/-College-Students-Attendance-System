@@ -494,12 +494,29 @@
 document.addEventListener("DOMContentLoaded", function () {
 
     const toggleButton = document.getElementById("toggleSidebar");
-
     const sidebar = document.getElementById("sidebar");
 
+    // Restore previous sidebar state
+    if (localStorage.getItem("sidebar") === "collapsed") {
+
+        sidebar.classList.add("collapsed");
+
+    }
+
+    // Toggle sidebar
     toggleButton.addEventListener("click", function () {
 
         sidebar.classList.toggle("collapsed");
+
+        if (sidebar.classList.contains("collapsed")) {
+
+            localStorage.setItem("sidebar", "collapsed");
+
+        } else {
+
+            localStorage.setItem("sidebar", "expanded");
+
+        }
 
     });
 

@@ -25,7 +25,7 @@ from reportlab.lib.styles import (
 )
 from reportlab.lib import colors
 from flask import send_file
-import os
+from io import BytesIO
 
 attendance_bp = Blueprint(
     "attendance",
@@ -204,7 +204,7 @@ def attendance_summary():
 
     course = request.args.get("course")
     year = request.args.get("year")
-    status = request.args.get("status")
+    filter_status = request.args.get("status")
 
     students = Student.query
 
@@ -248,9 +248,9 @@ def attendance_summary():
             )
 
         if percentage < 75:
-            status = "Low Attendance"
+            attendance_status = "Low Attendance"
         else:
-            status = "Good"
+            attendance_status = "Good"
 
         report.append({
             "student": student,
@@ -258,10 +258,10 @@ def attendance_summary():
             "present_days": present_days,
             "absent_days": absent_days,
             "percentage": percentage,
-            "status": status
+            "status": attendance_status
         })
 
-    if status == "Low Attendance":
+    if filter_status == "Low Attendance":
 
         report = [
 
@@ -278,7 +278,7 @@ def attendance_summary():
         report=report,
         course=course,
         year=year,
-        status=status
+        status=filter_status
     )
 
 @attendance_bp.route(
@@ -397,8 +397,10 @@ def attendance_report_pdf():
         f"{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
     )
 
+    buffer = BytesIO()
+
     doc = SimpleDocTemplate(
-        filename
+        buffer
     )
 
     styles = getSampleStyleSheet()
@@ -539,10 +541,13 @@ def attendance_report_pdf():
 
     doc.build(elements)
 
+    buffer.seek(0)
+
     return send_file(
-        filename,
+        buffer,
         as_attachment=True,
-        download_name=filename
+        download_name=filename,
+        mimetype="application/pdf"
     )
 
 @attendance_bp.route(
@@ -592,8 +597,10 @@ def student_attendance_pdf(student_id):
         f"{student.roll_no}_Attendance_Report.pdf"
     )
 
+    buffer = BytesIO()
+
     doc = SimpleDocTemplate(
-        filename
+        buffer
     )
 
     styles = getSampleStyleSheet()
@@ -809,8 +816,11 @@ def student_attendance_pdf(student_id):
 
     doc.build(elements)
 
+    buffer.seek(0)
+
     return send_file(
-        filename,
+        buffer,
         as_attachment=True,
-        download_name=filename
+        download_name=filename,
+        mimetype="application/pdf"
     )

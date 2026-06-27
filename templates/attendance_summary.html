@@ -30,7 +30,9 @@ Attendance Summary
 
     <div class="card-body">
 
-        <form method="GET">
+        <form
+            method="GET"
+            action="{{ url_for('attendance.attendance_summary') }}">
 
             <div class="row">
 

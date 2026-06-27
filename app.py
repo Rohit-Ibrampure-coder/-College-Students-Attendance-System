@@ -27,7 +27,7 @@ login_manager.login_view = "auth.login"
 
 @app.route("/")
 def home():
-    return "College Students Attendance System"
+    return render_template("index.html")
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(dashboard_bp)
