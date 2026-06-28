@@ -26,22 +26,6 @@ Attendance
 
 </div>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
-
-    {% for category, message in messages %}
-
-        <div class="alert alert-info">
-
-            {{ message }}
-
-        </div>
-
-    {% endfor %}
-
-{% endif %}
-{% endwith %}
-
 <div class="card border-0 shadow-sm mb-4">
 
     <div class="card-body">
@@ -238,6 +222,9 @@ Attendance
                                     type="radio"
                                     name="status_{{ student.id }}"
                                     value="Present"
+                                    {% if attendance_map.get(student.id) == "Present" %}
+                                    checked
+                                    {% endif %}
                                     required>
 
                             </td>
@@ -247,7 +234,10 @@ Attendance
                                 <input
                                     type="radio"
                                     name="status_{{ student.id }}"
-                                    value="Absent">
+                                    value="Absent"
+                                    {% if attendance_map.get(student.id) == "Absent" %}
+                                    checked
+                                    {% endif %}>
 
                             </td>
 

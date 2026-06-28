@@ -9,6 +9,7 @@ from routes.student import student_bp
 from models.user import User
 from flask import render_template
 from routes.attendance import attendance_bp
+from routes.student_portal import student_portal_bp
 
 app = Flask(__name__)
 
@@ -33,6 +34,11 @@ app.register_blueprint(auth_bp)
 app.register_blueprint(dashboard_bp)
 app.register_blueprint(student_bp)
 app.register_blueprint(attendance_bp)
+app.register_blueprint(student_portal_bp)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        host="0.0.0.0",
+        port=5000,
+        debug=True
+    )

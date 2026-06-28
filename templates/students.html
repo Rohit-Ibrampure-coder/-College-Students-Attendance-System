@@ -34,34 +34,138 @@ Students
 
 </div>
 
-<div class="card border-0 shadow-sm">
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-header bg-dark text-white">
+
+        <h5 class="mb-0">
+
+            <i class="bi bi-funnel-fill me-2"></i>
+
+            Student Filters
+
+        </h5>
+
+    </div>
 
     <div class="card-body">
 
         <form method="GET">
 
-            <div class="row">
+            <div class="row g-3">
 
-                <div class="col-md-10 mb-2">
+                <div class="col-lg-5">
 
                     <input
                         type="text"
                         class="form-control"
                         name="search"
-                        placeholder="Search by Name, Roll Number or Course"
-                        value="{{ search }}">
+                        placeholder="Search by Name or Roll Number"
+                        value="{{ search or '' }}">
 
                 </div>
 
-                <div class="col-md-2 mb-2">
+                <div class="col-lg-2">
 
-                    <button
-                        type="submit"
-                        class="btn btn-dark w-100">
+                    <select
+                        name="course"
+                        class="form-select">
 
-                        Search
+                        <option value="">
+                            All Courses
+                        </option>
 
-                    </button>
+                        <option
+                            value="BCA"
+                            {% if course == "BCA" %}
+                            selected
+                            {% endif %}>
+
+                            BCA
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-2">
+
+                    <select
+                        name="year"
+                        class="form-select">
+
+                        <option value="">
+                            All Years
+                        </option>
+
+                        <option
+                            value="First Year"
+                            {% if year == "First Year" %}
+                            selected
+                            {% endif %}>
+
+                            First Year
+
+                        </option>
+
+                        <option
+                            value="Second Year"
+                            {% if year == "Second Year" %}
+                            selected
+                            {% endif %}>
+
+                            Second Year
+
+                        </option>
+
+                        <option
+                            value="Third Year"
+                            {% if year == "Third Year" %}
+                            selected
+                            {% endif %}>
+
+                            Third Year
+
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-lg-3">
+
+                    <div class="row g-2">
+
+                        <div class="col-6 d-grid">
+
+                            <button
+                                type="submit"
+                                class="btn btn-dark">
+
+                                <i class="bi bi-search me-1"></i>
+
+                                Search
+
+                            </button>
+
+                        </div>
+
+                        <div class="col-6 d-grid">
+
+                            <a
+                                href="{{ url_for('student.students') }}"
+                                class="btn btn-secondary">
+
+                                <i class="bi bi-arrow-clockwise me-1"></i>
+
+                                Reset
+
+                            </a>
+
+                        </div>
+
+                    </div>
 
                 </div>
 

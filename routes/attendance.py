@@ -26,12 +26,13 @@ from reportlab.lib.styles import (
 from reportlab.lib import colors
 from flask import send_file
 from io import BytesIO
+from utils.pdf_generator import generate_student_attendance_pdf
+
 
 attendance_bp = Blueprint(
     "attendance",
     __name__
 )
-
 
 @attendance_bp.route(
     "/attendance",
@@ -42,10 +43,18 @@ def attendance():
 
     students = []
 
+    attendance_map = {}
+
+    course = None
+    year = None
+    attendance_date = None
+
     if request.method == "POST":
 
         course = request.form["course"]
+
         year = request.form["year"]
+
         attendance_date = request.form["attendance_date"]
 
         students = Student.query.filter_by(
@@ -53,17 +62,44 @@ def attendance():
             year=year
         ).all()
 
+        for student in students:
+
+            record = Attendance.query.filter_by(
+
+                student_id=student.id,
+
+                attendance_date=attendance_date
+
+            ).first()
+
+            if record:
+
+                attendance_map[student.id] = record.status
+
         return render_template(
+
             "attendance.html",
+
             students=students,
+
             course=course,
+
             year=year,
-            attendance_date=attendance_date
+
+            attendance_date=attendance_date,
+
+            attendance_map=attendance_map
+
         )
 
     return render_template(
+
         "attendance.html",
-        students=students
+
+        students=students,
+
+        attendance_map=attendance_map
+
     )
 
 @attendance_bp.route(
@@ -86,7 +122,16 @@ def save_attendance():
         year=year
     ).all()
 
+    new_count = 0
+
     for student in students:
+
+        status = request.form.get(
+            f"status_{student.id}"
+        )
+
+        if not status:
+            continue
 
         existing = Attendance.query.filter_by(
             student_id=student.id,
@@ -95,43 +140,39 @@ def save_attendance():
 
         if existing:
 
-            flash(
-                f"Attendance already exists for {attendance_date}",
-                "warning"
-            )
+            continue
 
-            return redirect(
-                url_for("attendance.attendance")
-            )
+        attendance = Attendance(
 
-        status = request.form.get(
-            f"status_{student.id}"
+            student_id=student.id,
+
+            attendance_date=attendance_date,
+
+            status=status,
+
+            marked_by=current_user.id
+
         )
 
-        if status:
+        db.session.add(attendance)
 
-            attendance = Attendance(
-
-                student_id=student.id,
-
-                attendance_date=attendance_date,
-
-                status=status,
-
-                marked_by=current_user.id
-
-            )
-
-            db.session.add(
-                attendance
-            )
+        new_count += 1
 
     db.session.commit()
 
-    flash(
-        "Attendance saved successfully!",
-        "success"
-    )
+    if new_count > 0:
+
+        flash(
+            f"Attendance marked successfully for {new_count} new student(s).",
+            "success"
+        )
+
+    else:
+
+        flash(
+            "All students already have attendance for this date.",
+            "info"
+        )
 
     return redirect(
         url_for(
@@ -316,10 +357,24 @@ def edit_attendance(id):
 
         db.session.commit()
 
+        flash(
+            "Attendance updated successfully.",
+            "success"
+        )
+
         return redirect(
+
             url_for(
-                "attendance.attendance_report"
+
+                "attendance.attendance_report",
+
+                from_date=attendance.attendance_date,
+                to_date=attendance.attendance_date,
+                course=attendance.student.course,
+                year=attendance.student.year
+
             )
+
         )
 
     return render_template(
@@ -337,16 +392,34 @@ def delete_attendance(id):
         id
     )
 
+    attendance_date = attendance.attendance_date
+    course = attendance.student.course
+    year = attendance.student.year
+
     db.session.delete(
         attendance
     )
 
     db.session.commit()
 
+    flash(
+        "Attendance deleted successfully.",
+        "success"
+    )
+
     return redirect(
+
         url_for(
-            "attendance.attendance_report"
+
+            "attendance.attendance_report",
+
+            from_date=attendance_date,
+            to_date=attendance_date,
+            course=course,
+            year=year
+
         )
+
     )
 
 @attendance_bp.route(
@@ -560,267 +633,6 @@ def student_attendance_pdf(student_id):
         student_id
     )
 
-    records = Attendance.query.filter_by(
-        student_id=student_id
-    ).all()
-
-    present_days = Attendance.query.filter_by(
-        student_id=student_id,
-        status="Present"
-    ).count()
-
-    absent_days = Attendance.query.filter_by(
-        student_id=student_id,
-        status="Absent"
-    ).count()
-
-    total_days = len(records)
-
-    percentage = 0
-
-    if total_days > 0:
-
-        percentage = round(
-            (present_days / total_days) * 100,
-            2
-        )
-
-    if percentage >= 75:
-
-        attendance_status = "Good (Attendance ≥ 75%)"
-
-    else:
-
-        attendance_status = "Low Attendance (Attendance < 75%)"
-
-    filename = (
-        f"{student.roll_no}_Attendance_Report.pdf"
-    )
-
-    buffer = BytesIO()
-
-    doc = SimpleDocTemplate(
-        buffer
-    )
-
-    styles = getSampleStyleSheet()
-
-    elements = []
-
-    college = Paragraph(
-        "Dhananjayrao Gadgil College of Commerce, Satara",
-        styles["Title"]
-    )
-
-    title = Paragraph(
-        "Student Attendance Report",
-        styles["Heading2"]
-    )
-
-    generated = Paragraph(
-        f"Generated On : {datetime.now().strftime('%d-%m-%Y %H:%M')}",
-        styles["Normal"]
-    )
-
-    elements.append(college)
-
-    elements.append(title)
-
-    elements.append(generated)
-
-    elements.append(
-        Spacer(1, 15)
-    )
-
-    student_info = [
-
-        ["Roll No", student.roll_no],
-
-        ["Student Name", student.name],
-
-        ["Course", student.course],
-
-        ["Year", student.year]
-
-    ]
-
-    student_table = Table(student_info)
-
-    student_table.setStyle(
-
-        TableStyle([
-
-            ("GRID", (0,0), (-1,-1), 1, colors.black),
-
-            ("BACKGROUND", (0,0), (0,-1), colors.lightgrey),
-
-            ("BOTTOMPADDING",(0,0),(-1,-1),8)
-
-        ])
-
-    )
-
-    elements.append(student_table)
-
-    elements.append(
-        Spacer(1,15)
-    )
-
-    summary_title = Paragraph(
-        "Attendance Summary",
-        styles["Heading2"]
-    )
-
-    elements.append(summary_title)
-
-    elements.append(
-        Spacer(1,10)
-    )
-
-    summary_data = [
-
-        ["Present Days", present_days],
-
-        ["Absent Days", absent_days],
-
-        ["Total Days", total_days],
-
-        ["Attendance %", f"{percentage}%"],
-
-        ["Status", attendance_status]
-
-    ]
-
-    summary_table = Table(summary_data)
-
-    summary_table.setStyle(
-
-        TableStyle([
-
-            (
-                "GRID",
-                (0,0),
-                (-1,-1),
-                1,
-                colors.black
-            ),
-
-            (
-                "BACKGROUND",
-                (0,0),
-                (0,-1),
-                colors.lightgrey
-            ),
-
-            (
-                "BOTTOMPADDING",
-                (0,0),
-                (-1,-1),
-                8
-            )
-
-        ])
-
-    )
-
-    elements.append(summary_table)
-
-    elements.append(
-        Spacer(1,15)
-    )
-
-    details_title = Paragraph(
-        "Attendance Details",
-        styles["Heading2"]
-    )
-
-    elements.append(details_title)
-
-    elements.append(
-        Spacer(1,10)
-    )
-
-    details_data = [[
-        "Date",
-        "Status"
-    ]]
-
-    for record in records:
-
-        details_data.append([
-            str(record.attendance_date),
-            record.status
-        ])
-
-    details_table = Table(details_data)
-
-    details_table.setStyle(
-
-        TableStyle([
-
-            (
-                "BACKGROUND",
-                (0,0),
-                (-1,0),
-                colors.HexColor("#0F172A")
-            ),
-
-            (
-                "TEXTCOLOR",
-                (0,0),
-                (-1,0),
-                colors.white
-            ),
-
-            (
-                "FONTNAME",
-                (0,0),
-                (-1,0),
-                "Helvetica-Bold"
-            ),
-
-            (
-                "GRID",
-                (0,0),
-                (-1,-1),
-                1,
-                colors.black
-            ),
-
-            (
-                "ROWBACKGROUNDS",
-                (0,1),
-                (-1,-1),
-                [
-                    colors.whitesmoke,
-                    colors.lightgrey
-                ]
-            )
-
-        ])
-
-    )
-
-    elements.append(details_table)
-
-    elements.append(
-        Spacer(1,20)
-    )
-
-    footer = Paragraph(
-        "Generated by College Attendance Management System",
-        styles["Italic"]
-    )
-
-    elements.append(footer)
-
-    doc.build(elements)
-
-    buffer.seek(0)
-
-    return send_file(
-        buffer,
-        as_attachment=True,
-        download_name=filename,
-        mimetype="application/pdf"
+    return generate_student_attendance_pdf(
+        student
     )

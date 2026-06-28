@@ -36,10 +36,20 @@ def login():
 
             login_user(user)
 
-            return redirect(
-                url_for("dashboard.dashboard")
-            )
+            if user.role == "Student":
 
+                return redirect(
+                    url_for(
+                        "student_portal.student_dashboard"
+                    )
+                )
+
+            return redirect(
+                url_for(
+                    "dashboard.dashboard"
+                )
+            )
+        
         flash(
             "Invalid email or password.",
             "danger"
