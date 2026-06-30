@@ -151,7 +151,7 @@ Students can securely log in using their registered email address.
 ### Clone Repository
 
 ```bash
-git clone https://github.com/rohit-ibrampure-coder/College-Students-Attendance-System.git
+git clone https://github.com/Rohit-Ibrampure-coder/College-Students-Attendance-System.git
 ```
 
 ---
